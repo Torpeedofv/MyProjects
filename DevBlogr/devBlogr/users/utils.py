@@ -5,7 +5,7 @@ from flask import url_for
 from flask_mail import Message
 from devBlogr import mail
 from flask import current_app
-
+from devBlogr.config import Config
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
@@ -21,6 +21,7 @@ def save_picture(form_picture):
 
 def send_reset_email(user):
     token = user.get_reset_token()
+    sender = Config.MAIL_USERNAME
     msg = Message('Password Reset Request', sender=sender, recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link: {url_for('users.reset_token', token=token, _external=True)}
 
